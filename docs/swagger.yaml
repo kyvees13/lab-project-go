@@ -1,0 +1,97 @@
+basePath: /
+definitions:
+  models.InfoClientPayload:
+    properties:
+      IP:
+        type: string
+      User-Agent:
+        type: string
+    type: object
+  models.InfoDatabasePayload:
+    properties:
+      version:
+        type: string
+    type: object
+  models.InfoGoVersionPayload:
+    properties:
+      goversion:
+        type: string
+    type: object
+  models.Response:
+    properties:
+      code:
+        description: Внутренний код ошибки
+        type: integer
+      data:
+        description: Основные данные для ответа (может быть nil при ошибке)
+      message:
+        description: Описание ошибки или успеха
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server.
+  termsOfService: http://swagger.io/terms/
+  title: My API
+  version: "1.0"
+paths:
+  /info/client:
+    get:
+      description: Get the client IP address and user agent
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.InfoClientPayload'
+              type: object
+      tags:
+      - Info
+  /info/database:
+    get:
+      description: Get the database version
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.InfoDatabasePayload'
+              type: object
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Info
+  /info/version:
+    get:
+      description: Get the golang version
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.InfoGoVersionPayload'
+              type: object
+      tags:
+      - Info
+swagger: "2.0"
